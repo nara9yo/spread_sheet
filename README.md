@@ -5,6 +5,7 @@
 - 현재 focus 된 셀의 위쪽 헤더, 왼쪽 헤더가 함께 하늘색으로 하이라이트 됩니다.
 - 작성된 모든 데이터는 Export Spreadsheet 버튼을 눌러 Excel(CSV) 파일로 저장할 수 있습니다.
 - 생성된 Excel 파일을 구글 Spreadsheet 등에서 Import하면 동일한 데이터가 나옵니다.
+  ![Image](https://github.com/user-attachments/assets/2ff91fcd-ee47-4309-8e92-756b6443eb57)
 
 ---
 
