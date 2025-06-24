@@ -24,6 +24,7 @@ export function createCellEl(
     cellEl = document.createElement("div");
     cellEl.className = "cell header";
     cellEl.textContent = cell.data;
+    // 헤더 셀은 클릭 이벤트를 부여하지 않음 (강조색 방지)
   } else {
     // 일반 셀은 input으로 생성
     cellEl = document.createElement("input");
@@ -34,9 +35,9 @@ export function createCellEl(
       handleCellInput(e, cell.row, cell.column)
     );
     cellEl.onchange = (e) => handleOnChange(e.target.value, cell);
+    cellEl.onclick = () => handleCellClick(cell);
   }
   cellEl.id = "cell_" + cell.row + "_" + cell.column;
-  cellEl.onclick = () => handleCellClick(cell);
   // 선택된 셀 하이라이트 복원
   if (
     selectedCellPos &&
@@ -97,6 +98,9 @@ export function handleCellClick(
   clearHeaderActiveStates,
   clearSelectedCellStates
 ) {
+  // 헤더 셀 클릭 시 아무 동작도 하지 않음 (강조색 방지)
+  if (cell.isHeader) return;
+
   // 선택된 셀 위치 저장
   selectedCellPos = { row: cell.row, col: cell.column };
   // 1. 모든 활성화 및 선택 상태를 초기화

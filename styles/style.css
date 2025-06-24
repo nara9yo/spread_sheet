@@ -172,13 +172,6 @@ body {
 /* =========================
    Sticky 헤더/행 스타일
    ========================= */
-/* 열 헤더(첫 행) 고정 */
-.cell-row:first-child .cell {
-  position: sticky;
-  top: var(--menu-height);
-  z-index: 3;
-  background: var(--color-header-bg);
-}
 /* 행 헤더(첫 열) 고정 */
 .cell-row .cell:first-child {
   position: sticky;
