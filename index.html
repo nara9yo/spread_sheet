@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spreadsheet</title>
+    <!-- 파비콘 및 스타일시트, 아이콘 폰트 로드 -->
+    <link rel="shortcut icon" href="assets/favicon.ico" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- 전체 스프레드시트 컨테이너 -->
+    <div id="spreadsheet-container">
+      <!-- 상단 메뉴바(엑셀 스타일) -->
+      <header class="menu-bar">
+        <!-- 내보내기 버튼 (아이콘+텍스트) -->
+        <button id="export-btn">
+          <span
+            class="material-icons"
+            style="vertical-align: middle; font-size: 20px; margin-right: 4px"
+            >archive</span
+          >
+          CSV로 내보내기
+        </button>
+        <!-- 셀 상태 표시 -->
+        <span class="cell-status-label">
+          Cell: <span id="cell-status"></span>
+        </span>
+      </header>
+      <!-- 시트 영역(실제 스프레드시트) -->
+      <main id="sheet-area"></main>
+    </div>
+    <!-- 기능 스크립트 -->
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

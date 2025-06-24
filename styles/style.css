@@ -1,0 +1,216 @@
+/* =========================
+   전역 변수 및 기본 설정
+   ========================= */
+:root {
+  --color-primary: dodgerblue; /* 강조색(엑셀 그린) */
+  --color-header-bg: #ddd; /* 헤더 배경 */
+  --color-header-active-bg: #e9eaea; /* 활성 헤더 배경 */
+  --color-border: #e0e0e0; /* 테두리 */
+  --color-menu-bg: #f7f7f7; /* 메뉴바 배경 */
+  --color-menu-hover: #e6f0fa; /* 메뉴 hover */
+  --color-menu-active: #d0e6fa; /* 메뉴 active */
+  --font-main: "Segoe UI", "Malgun Gothic", Arial, sans-serif;
+  --cell-width: 80px;
+  --cell-height: 40px;
+  --menu-height: 44px;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* 전체 스크롤 방지, 시트 내부만 스크롤 */
+}
+
+/* =========================
+   레이아웃 컨테이너
+   ========================= */
+#spreadsheet-container {
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================
+   메뉴바(엑셀 스타일)
+   ========================= */
+.menu-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--color-menu-bg);
+  padding: 0 24px;
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--menu-height);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  font-family: var(--font-main);
+}
+
+/* 메뉴 버튼 및 내보내기 버튼 스타일 */
+.menu-bar button,
+#export-btn {
+  background: transparent;
+  color: #222;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 0 18px;
+  margin: 0;
+  height: var(--menu-height);
+  cursor: pointer;
+  border-radius: 0;
+  font-size: 16px;
+  font-family: inherit;
+  font-weight: 500;
+  transition: background 0.15s, border-bottom 0.15s, color 0.15s;
+  outline: none;
+  position: relative;
+  top: 2px;
+  user-select: none;
+}
+
+/* 메뉴 버튼 hover/포커스 효과 */
+.menu-bar button:hover,
+.menu-bar button:focus,
+#export-btn:hover,
+#export-btn:focus {
+  background: var(--color-menu-hover);
+  border-bottom: 3px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* 메뉴 버튼 active 효과 */
+.menu-bar button:active,
+#export-btn:active {
+  background: var(--color-menu-active);
+  border-bottom: 3px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* 셀 상태 표시 라벨 */
+.cell-status-label {
+  margin-left: 24px;
+  color: #444;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+/* =========================
+   시트 영역(스크롤 컨테이너)
+   ========================= */
+#sheet-area {
+  flex: 1 1 0;
+  height: auto;
+  overflow: auto;
+  width: 100vw;
+  background: #fff;
+}
+
+/* =========================
+   시트 행/셀 스타일
+   ========================= */
+.cell-row {
+  display: flex;
+  min-width: max-content; /* 가로 스크롤 지원 */
+}
+
+/* 일반 셀 스타일 */
+.cell {
+  width: var(--cell-width);
+  border: 1px solid lightgray;
+  height: var(--cell-height);
+  outline: none;
+  box-sizing: border-box;
+  display: block;
+  background: #fff;
+  position: relative;
+}
+
+/* 헤더 셀 스타일 */
+.cell.header {
+  text-align: center;
+  background: var(--color-header-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--cell-height);
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* 활성화된 헤더 셀(선택 시 강조) */
+.cell.header.active {
+  background: var(--color-header-active-bg);
+  color: #333;
+}
+
+/* 선택된 셀(포커스 표시) */
+.cell.selected {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+/* 셀 채우기 핸들(엑셀 우하단 점) */
+.cell.selected::after {
+  content: "";
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  width: 6px;
+  height: 6px;
+  background: var(--color-primary);
+  border: 1px solid white;
+  cursor: crosshair;
+  z-index: 6;
+}
+
+/* =========================
+   Sticky 헤더/행 스타일
+   ========================= */
+/* 열 헤더(첫 행) 고정 */
+.cell-row:first-child .cell {
+  position: sticky;
+  top: var(--menu-height);
+  z-index: 3;
+  background: var(--color-header-bg);
+}
+/* 행 헤더(첫 열) 고정 */
+.cell-row .cell:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--color-header-bg);
+}
+/* 좌상단 헤더(첫 행, 첫 열) z-index 겹침 방지 */
+.cell-row:first-child .cell:first-child {
+  z-index: 4;
+}
+
+/* =========================
+   헤더 강조선(엑셀 스타일)
+   ========================= */
+/* 열 헤더 강조선(아래쪽) */
+.cell-row:first-child .cell.header.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--color-primary);
+}
+/* 행 헤더 강조선(오른쪽) */
+.cell-row:not(:first-child) .cell.header.active::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 2px;
+  background-color: var(--color-primary);
+}
